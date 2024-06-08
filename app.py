@@ -81,7 +81,7 @@ def predict():
         
         except Exception as e:
             print(f"Error: {e}")
-            return render_template('index.html', error=str(e))
+            return render_template('index.html', error="There is no trip in this route")
     
     return render_template('index.html')
 
