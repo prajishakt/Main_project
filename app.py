@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import pickle
 from sklearn.decomposition import PCA
 import sklearn
+import pytz
 
 print(sklearn.__version__)
 
@@ -26,7 +27,8 @@ def hello():
 def predict():
     if request.method == "POST":
         try:
-            trip_creation_time = datetime.now().strftime("%Y-%m-%dT%H:%M")
+            ist = pytz.timezone('Asia/Kolkata')
+            trip_creation_time = datetime.now(ist).strftime("%Y-%m-%dT%H:%M")
             print(trip_creation_time)
             #trip_creation_time = request.form['trip_creation_time']
             source_states = request.form['source_states']
