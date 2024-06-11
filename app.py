@@ -72,12 +72,14 @@ def predict():
             predicted_time = model.predict(pca.transform(pass_values))
             print(predicted_time[0])
             eta = new_datetime + timedelta(minutes=predicted_time[0])
-            eta = eta.replace(second=0, microsecond=0)
-
-            trip_id = f"{source_center}{destination_center}{new_datetime.strftime('%Y%m%d%H%M%S')}"
-            return render_template('result.html', trip_id=trip_id, source_cities=source_cities, source_states=source_states, destination_cities=destination_cities, destination_states=destination_states, actual_time=eta, rout_type=rout_type, trip_creation_time=trip_creation_time)
+            actual_time_hour = int(predicted_time[0] // 60)
+            actual_time_hour_min = round(predicted_time[0] % 60)
+            actual_time_display = f"{actual_time_hour} hours and {actual_time_hour_min} minutes"
+            eta = eta.strftime('%d-%m-%Y %H:%M')
+            trip_creation_time = datetime_obj.strftime('%d-%m-%Y %H:%M')
+            trip_id = f"{source_center}{destination_center}{new_datetime.strftime('%Y%m%d%H%M')}"
+            return render_template('result.html', trip_id=trip_id, source_cities=source_cities, source_states=source_states, destination_cities=destination_cities, destination_states=destination_states, actual_time=eta, rout_type=rout_type, trip_creation_time=trip_creation_time,actual_time_display=actual_time_display)
          
-            #return render_template('prediction.html', msg=eta)
         
         except Exception as e:
             print(f"Error: {e}")
